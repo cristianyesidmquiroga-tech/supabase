@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MessageCircle, Menu, X, ArrowUpRight } from 'lucide-react';
 import { SitioConfig } from '../../types';
 import { generarEnlaceWhatsApp } from '../../lib/format';
@@ -7,8 +7,33 @@ export interface NavbarProps {
   config: SitioConfig | null;
 }
 
+const SECCIONES = ['inicio', 'coleccion', 'nosotros', 'encuentranos', 'contacto'];
+
 export const Navbar: React.FC<NavbarProps> = ({ config }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [seccionActiva, setSeccionActiva] = useState('inicio');
+
+  // Resalta en el menu la seccion que realmente esta a la vista.
+  useEffect(() => {
+    const elementos = SECCIONES.map((id) => document.getElementById(id)).filter(
+      (el): el is HTMLElement => Boolean(el)
+    );
+    if (elementos.length === 0 || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibles = entries.filter((e) => e.isIntersecting);
+        if (visibles.length > 0) {
+          const masVisible = visibles.reduce((a, b) => (a.intersectionRatio > b.intersectionRatio ? a : b));
+          setSeccionActiva(masVisible.target.id);
+        }
+      },
+      { rootMargin: '-30% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+
+    elementos.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   const whatsappUrl = generarEnlaceWhatsApp(
     config?.whatsapp,
@@ -16,6 +41,13 @@ export const Navbar: React.FC<NavbarProps> = ({ config }) => {
   );
 
   const closeMenu = () => setMobileMenuOpen(false);
+
+  const claseLink = (id: string) =>
+    `text-xs uppercase tracking-widest font-medium pb-1 transition-colors ${
+      seccionActiva === id
+        ? 'font-semibold text-[#9F1D3A] border-b border-[#9F1D3A]'
+        : 'text-[#57534E] hover:text-[#1C1917]'
+    }`;
 
   return (
     <header className="sticky top-0 z-40 bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#E7E0D6] shadow-xs">
@@ -41,34 +73,19 @@ export const Navbar: React.FC<NavbarProps> = ({ config }) => {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center space-x-7" aria-label="Navegación principal">
-            <a
-              href="#inicio"
-              className="text-xs uppercase tracking-widest font-medium text-[#57534E] hover:text-[#1C1917] transition-colors pb-1"
-            >
+            <a href="#inicio" className={claseLink('inicio')}>
               Inicio
             </a>
-            <a
-              href="#coleccion"
-              className="text-xs uppercase tracking-widest font-semibold text-[#9F1D3A] border-b border-[#9F1D3A] pb-1"
-            >
+            <a href="#coleccion" className={claseLink('coleccion')}>
               Colección
             </a>
-            <a
-              href="#nosotros"
-              className="text-xs uppercase tracking-widest font-medium text-[#57534E] hover:text-[#1C1917] transition-colors pb-1"
-            >
+            <a href="#nosotros" className={claseLink('nosotros')}>
               Nosotros
             </a>
-            <a
-              href="#encuentranos"
-              className="text-xs uppercase tracking-widest font-medium text-[#57534E] hover:text-[#1C1917] transition-colors pb-1"
-            >
+            <a href="#encuentranos" className={claseLink('encuentranos')}>
               Encuéntranos
             </a>
-            <a
-              href="#contacto"
-              className="text-xs uppercase tracking-widest font-medium text-[#57534E] hover:text-[#1C1917] transition-colors pb-1"
-            >
+            <a href="#contacto" className={claseLink('contacto')}>
               Contacto
             </a>
           </nav>
@@ -107,35 +124,35 @@ export const Navbar: React.FC<NavbarProps> = ({ config }) => {
             <a
               href="#inicio"
               onClick={closeMenu}
-              className="text-sm uppercase tracking-wider font-medium text-[#57534E] hover:text-[#9F1D3A] transition-colors py-1"
+              className={`text-sm uppercase tracking-wider py-1 ${claseLink('inicio')}`}
             >
               Inicio
             </a>
             <a
               href="#coleccion"
               onClick={closeMenu}
-              className="text-sm uppercase tracking-wider font-semibold text-[#9F1D3A] py-1"
+              className={`text-sm uppercase tracking-wider py-1 ${claseLink('coleccion')}`}
             >
               Colección
             </a>
             <a
               href="#nosotros"
               onClick={closeMenu}
-              className="text-sm uppercase tracking-wider font-medium text-[#57534E] hover:text-[#9F1D3A] transition-colors py-1"
+              className={`text-sm uppercase tracking-wider py-1 ${claseLink('nosotros')}`}
             >
               Nosotros
             </a>
             <a
               href="#encuentranos"
               onClick={closeMenu}
-              className="text-sm uppercase tracking-wider font-medium text-[#57534E] hover:text-[#9F1D3A] transition-colors py-1"
+              className={`text-sm uppercase tracking-wider py-1 ${claseLink('encuentranos')}`}
             >
               Encuéntranos
             </a>
             <a
               href="#contacto"
               onClick={closeMenu}
-              className="text-sm uppercase tracking-wider font-medium text-[#57534E] hover:text-[#9F1D3A] transition-colors py-1"
+              className={`text-sm uppercase tracking-wider py-1 ${claseLink('contacto')}`}
             >
               Contacto
             </a>

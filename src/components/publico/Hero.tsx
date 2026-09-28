@@ -118,8 +118,33 @@ export const Hero: React.FC<HeroProps> = ({ config, promociones = [] }) => {
                   fetchPriority="high"
                 />
               ) : (
-                <div className="w-full h-full bg-[#FAF7F2] flex items-center justify-center text-[#57534E]">
-                  <span className="font-display text-2xl uppercase tracking-widest text-[#1C1917]">VSHEIN</span>
+                <div className="relative w-full h-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#FAF7F2] via-[#F4ECE8] to-[#F3E4E6]">
+                  {/* Textura de puntos sutil */}
+                  <div
+                    className="absolute inset-0 opacity-40"
+                    style={{
+                      backgroundImage: 'radial-gradient(circle, #9F1D3A 1px, transparent 1px)',
+                      backgroundSize: '22px 22px',
+                    }}
+                    aria-hidden="true"
+                  />
+                  {/* Circulos decorativos con movimiento lento */}
+                  <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full border border-[#9F1D3A]/20 animate-[spin_60s_linear_infinite]" aria-hidden="true" />
+                  <div className="absolute bottom-10 -left-14 w-52 h-52 rounded-full border border-[#1C1917]/10 animate-[spin_90s_linear_infinite_reverse]" aria-hidden="true" />
+
+                  <div className="relative z-10 flex flex-col items-center gap-4 px-8 text-center">
+                    <span className="w-10 h-[1px] bg-[#9F1D3A]" aria-hidden="true" />
+                    <span className="font-display text-5xl md:text-6xl text-[#1C1917] tracking-tight">
+                      {(config?.nombre_negocio || 'V').charAt(0).toUpperCase()}
+                    </span>
+                    <span className="font-display text-lg uppercase tracking-[0.3em] text-[#1C1917]">
+                      {config?.nombre_negocio || 'VSHEIN'}
+                    </span>
+                    {config?.eslogan && (
+                      <span className="text-xs text-[#57534E] max-w-[220px]">{config.eslogan}</span>
+                    )}
+                    <span className="w-10 h-[1px] bg-[#9F1D3A]" aria-hidden="true" />
+                  </div>
                 </div>
               )}
 

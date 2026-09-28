@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkles, Eye } from 'lucide-react';
 import { SitioConfig } from '../../types';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export interface NosotrosProps {
   config: SitioConfig | null;
@@ -11,6 +12,7 @@ export const Nosotros: React.FC<NosotrosProps> = ({ config }) => {
   if (!tieneNosotros) return null;
 
   const tieneImagen = Boolean(config?.hero_imagen_url);
+  const { ref, visible } = useScrollReveal<HTMLDivElement>();
 
   return (
     <section
@@ -19,7 +21,10 @@ export const Nosotros: React.FC<NosotrosProps> = ({ config }) => {
       className="py-20 md:py-28 bg-[#F4ECE8]/50 border-y border-[#E7E0D6]"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-10">
-        <div className={`grid grid-cols-1 ${tieneImagen ? 'lg:grid-cols-12 gap-12 lg:gap-16 items-center' : ''}`}>
+        <div
+          ref={ref}
+          className={`reveal-slide-right ${visible ? 'is-visible' : ''} grid grid-cols-1 ${tieneImagen ? 'lg:grid-cols-12 gap-12 lg:gap-16 items-center' : ''}`}
+        >
           {/* Columna de foto: solo si hay imagen real configurada */}
           {tieneImagen && (
             <div className="lg:col-span-6">

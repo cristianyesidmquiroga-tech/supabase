@@ -1,6 +1,7 @@
 import React from 'react';
 import { Producto, ProductoMasVendido, SitioConfig } from '../../types';
 import { ProductCard } from './ProductCard';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export interface MasVendidosProps {
   productos: Producto[];
@@ -15,6 +16,7 @@ export const MasVendidos: React.FC<MasVendidosProps> = ({
   config,
   onSelectProducto,
 }) => {
+  const { ref, visible } = useScrollReveal<HTMLDivElement>();
   if (!masVendidos || masVendidos.length === 0) return null;
 
   // Filter products that match the most sold view IDs with units sold > 0
@@ -29,7 +31,10 @@ export const MasVendidos: React.FC<MasVendidosProps> = ({
   return (
     <section aria-labelledby="mas-vendidos-title" className="py-12 md:py-16 bg-[#F4ECE8]/50 border-b border-[#E7E0D6]">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-[#E7E0D6] gap-4">
+        <div
+          ref={ref}
+          className={`reveal-fade-up ${visible ? 'is-visible' : ''} flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-[#E7E0D6] gap-4`}
+        >
           <div>
             <div className="inline-flex items-center gap-2 mb-2">
               <span className="w-5 h-[1px] bg-[#9F1D3A]" aria-hidden="true" />

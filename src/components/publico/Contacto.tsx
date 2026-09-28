@@ -15,6 +15,7 @@ import { supabase, isSupabaseConfigured } from '../../lib/supabaseClient';
 import { generarEnlaceWhatsApp, validarFormularioContacto } from '../../lib/format';
 import { useToast } from '../ui/Toast';
 import { ErrorAlert } from '../ui/ErrorAlert';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export interface ContactoProps {
   config: SitioConfig | null;
@@ -34,6 +35,8 @@ export const Contacto: React.FC<ContactoProps> = ({ config }) => {
   const [enviando, setEnviando] = useState(false);
   const [errorEnvio, setErrorEnvio] = useState<string | null>(null);
   const [bloqueoSegundos, setBloqueoSegundos] = useState(0);
+  const { ref: canalesRef, visible: canalesVisible } = useScrollReveal<HTMLDivElement>();
+  const { ref: formRef, visible: formVisible } = useScrollReveal<HTMLDivElement>();
 
   const whatsappUrl = generarEnlaceWhatsApp(
     config?.whatsapp,
@@ -148,7 +151,10 @@ export const Contacto: React.FC<ContactoProps> = ({ config }) => {
         </div>
 
         {/* Multi-Channel Row (only show channels that exist) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
+        <div
+          ref={canalesRef}
+          className={`reveal-fade-up ${canalesVisible ? 'is-visible' : ''} grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-16`}
+        >
           {/* WhatsApp */}
           <a
             href={whatsappUrl}
@@ -229,7 +235,10 @@ export const Contacto: React.FC<ContactoProps> = ({ config }) => {
         </div>
 
         {/* Curated Contact Form */}
-        <div className="max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-[12px] border border-[#E7E0D6] shadow-sm">
+        <div
+          ref={formRef}
+          className={`reveal-scale-in ${formVisible ? 'is-visible' : ''} max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-[12px] border border-[#E7E0D6] shadow-sm`}
+        >
           {errorEnvio && (
             <ErrorAlert
               title="No se pudo remitir su consulta"

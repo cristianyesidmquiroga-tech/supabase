@@ -2,6 +2,7 @@ import React from 'react';
 import { Instagram, Facebook, Music, ShieldCheck } from 'lucide-react';
 import { SitioConfig, Politica } from '../../types';
 import { generarEnlaceWhatsApp } from '../../lib/format';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export interface FooterProps {
   config: SitioConfig | null;
@@ -10,6 +11,7 @@ export interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ config, politicas = [] }) => {
   const anio = new Date().getFullYear();
+  const { ref, visible } = useScrollReveal<HTMLDivElement>(0.05);
 
   const whatsappUrl = generarEnlaceWhatsApp(
     config?.whatsapp,
@@ -18,7 +20,7 @@ export const Footer: React.FC<FooterProps> = ({ config, politicas = [] }) => {
 
   return (
     <footer className="w-full bg-[#1C1917] text-[#FAF7F2] border-t border-[#33302D]">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-16">
+      <div ref={ref} className={`reveal-fade-up ${visible ? 'is-visible' : ''} max-w-7xl mx-auto px-6 md:px-10 py-16`}>
         {/* Top Row Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-[#33302D]">
           {/* Brand Info */}

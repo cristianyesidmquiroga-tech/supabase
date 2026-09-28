@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { SitioConfig, Promocion } from '../../types';
 import { generarEnlaceWhatsApp } from '../../lib/format';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export interface HeroProps {
   config: SitioConfig | null;
@@ -12,6 +13,8 @@ export const Hero: React.FC<HeroProps> = ({ config, promociones = [] }) => {
   const [currentPromoIndex, setCurrentPromoIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
+  const { ref: textoRef, visible: textoVisible } = useScrollReveal<HTMLDivElement>(0.1);
+  const { ref: fotoRef, visible: fotoVisible } = useScrollReveal<HTMLDivElement>(0.1);
 
   const activePromos = promociones.filter((p) => p.activa && (p.url_publica || p.ruta_imagen));
 
@@ -67,7 +70,10 @@ export const Hero: React.FC<HeroProps> = ({ config, promociones = [] }) => {
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-20 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Editorial Copy Column */}
-          <div className="lg:col-span-6 flex flex-col justify-center pr-0 lg:pr-8 space-y-6">
+          <div
+            ref={textoRef}
+            className={`reveal-slide-left ${textoVisible ? 'is-visible' : ''} lg:col-span-6 flex flex-col justify-center pr-0 lg:pr-8 space-y-6`}
+          >
             <h1 className="font-display text-4xl sm:text-5xl lg:text-[56px] text-[#1C1917] font-bold tracking-tight leading-[1.1] text-balance">
               {currentPromo?.titulo || config?.hero_titulo || config?.nombre_negocio || 'Bienvenida'}
             </h1>
@@ -99,7 +105,7 @@ export const Hero: React.FC<HeroProps> = ({ config, promociones = [] }) => {
           </div>
 
           {/* Editorial Photography Column */}
-          <div className="lg:col-span-6 relative">
+          <div ref={fotoRef} className={`reveal-scale-in ${fotoVisible ? 'is-visible' : ''} lg:col-span-6 relative`}>
             <div className="relative mx-auto w-full max-w-lg lg:max-w-none aspect-[4/5] bg-[#F4ECE8] rounded-[12px] overflow-hidden border border-[#E7E0D6] shadow-sm">
               {heroImageUrl ? (
                 <img

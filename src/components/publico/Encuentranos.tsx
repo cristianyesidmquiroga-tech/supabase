@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, Clock, Phone, Navigation } from 'lucide-react';
 import { SitioConfig } from '../../types';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export interface EncuentranosProps {
   config: SitioConfig | null;
@@ -8,6 +9,8 @@ export interface EncuentranosProps {
 
 export const Encuentranos: React.FC<EncuentranosProps> = ({ config }) => {
   const tieneUbicacion = Boolean(config?.direccion || config?.mapa_embed_url);
+  const { ref: infoRef, visible: infoVisible } = useScrollReveal<HTMLDivElement>();
+  const { ref: mapaRef, visible: mapaVisible } = useScrollReveal<HTMLDivElement>();
   if (!tieneUbicacion) return null;
 
   // Directions destination URL
@@ -44,7 +47,10 @@ export const Encuentranos: React.FC<EncuentranosProps> = ({ config }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
           {/* Column 1: Info, Hours, Phone and Directions CTA */}
-          <div className="lg:col-span-5 flex flex-col justify-between bg-white p-8 rounded-[12px] border border-[#E7E0D6] shadow-xs space-y-8">
+          <div
+            ref={infoRef}
+            className={`reveal-slide-left ${infoVisible ? 'is-visible' : ''} lg:col-span-5 flex flex-col justify-between bg-white p-8 rounded-[12px] border border-[#E7E0D6] shadow-xs space-y-8`}
+          >
             <div className="space-y-6">
               {/* Dirección */}
               {config?.direccion && (
@@ -122,7 +128,10 @@ export const Encuentranos: React.FC<EncuentranosProps> = ({ config }) => {
           </div>
 
           {/* Column 2: Styled Architectural Map */}
-          <div className="lg:col-span-7 relative min-h-[380px] lg:min-h-[440px] rounded-[12px] overflow-hidden border border-[#E7E0D6] shadow-xs bg-[#F4ECE8]">
+          <div
+            ref={mapaRef}
+            className={`reveal-scale-in ${mapaVisible ? 'is-visible' : ''} lg:col-span-7 relative min-h-[380px] lg:min-h-[440px] rounded-[12px] overflow-hidden border border-[#E7E0D6] shadow-xs bg-[#F4ECE8]`}
+          >
             {config?.mapa_embed_url ? (
               <iframe
                 src={config.mapa_embed_url}
@@ -133,7 +142,7 @@ export const Encuentranos: React.FC<EncuentranosProps> = ({ config }) => {
                 loading="lazy"
                 title={`Ubicación de ${config?.nombre_negocio || 'la tienda'}`}
                 referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-full grayscale contrast-[1.05] opacity-90 hover:grayscale-0 transition-all duration-500"
+                className="w-full h-full"
               />
             ) : (
               <div className="w-full h-full min-h-[380px] flex items-center justify-center p-8 bg-[#F4ECE8] text-[#57534E] text-center">

@@ -1,13 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Marca un elemento como visible la primera vez que entra en pantalla,
- * para animar tarjetas tipo "fotograma" al hacer scroll. Se dispara una
- * sola vez (no se revierte al salir de vista) para no marear al usuario.
+ * Marca un elemento como visible mientras esta en pantalla, para animar
+ * secciones/tarjetas al hacer scroll. Por defecto se repite tanto al
+ * bajar como al subir (sale y vuelve a entrar), para que la pagina se
+ * sienta viva en todo el recorrido; pasar `once: true` para que quede
+ * fija despues de la primera aparicion.
  */
-export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(threshold = 0.15) {
+export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
+  threshold = 0.15,
+  options?: { once?: boolean }
+) {
   const ref = useRef<T | null>(null);
   const [visible, setVisible] = useState(false);
+  const once = options?.once ?? false;
 
   useEffect(() => {
     const el = ref.current;
@@ -22,15 +28,17 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(threshol
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
-          observer.disconnect();
+          if (once) observer.disconnect();
+        } else if (!once) {
+          setVisible(false);
         }
       },
-      { threshold, rootMargin: '0px 0px -40px 0px' }
+      { threshold, rootMargin: '0px 0px -60px 0px' }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [threshold]);
+  }, [threshold, once]);
 
   return { ref, visible };
 }

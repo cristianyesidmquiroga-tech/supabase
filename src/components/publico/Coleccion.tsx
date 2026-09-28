@@ -5,6 +5,7 @@ import { ProductCard } from './ProductCard';
 import { ProductCardSkeleton } from '../ui/Skeleton';
 import { EmptyState } from '../ui/EmptyState';
 import { ErrorAlert } from '../ui/ErrorAlert';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export interface ColeccionProps {
   productos: Producto[];
@@ -51,6 +52,8 @@ export const Coleccion: React.FC<ColeccionProps> = ({
   const [selectedTalla, setSelectedTalla] = useState<string>(initial.talla);
   const [selectedOrden, setSelectedOrden] = useState<string>(initial.orden);
   const [visibleCount, setVisibleCount] = useState<number>(12);
+  const { ref: headerRef, visible: headerVisible } = useScrollReveal<HTMLDivElement>();
+  const { ref: toolbarRef, visible: toolbarVisible } = useScrollReveal<HTMLDivElement>();
 
   // Sync state to URL hash query params without page reload
   useEffect(() => {
@@ -142,7 +145,10 @@ export const Coleccion: React.FC<ColeccionProps> = ({
     <section id="coleccion" aria-labelledby="coleccion-heading" className="py-20 md:py-24 bg-[#FAF7F2]">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         {/* Header & Curator info */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-[#E7E0D6] gap-6">
+        <div
+          ref={headerRef}
+          className={`reveal-fade-up ${headerVisible ? 'is-visible' : ''} flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-[#E7E0D6] gap-6`}
+        >
           <div>
             <div className="inline-flex items-center gap-2 mb-2">
               <span className="w-5 h-[1px] bg-[#9F1D3A]" aria-hidden="true" />
@@ -175,7 +181,10 @@ export const Coleccion: React.FC<ColeccionProps> = ({
         )}
 
         {/* Filter & Search Toolbar */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 mb-12 p-4 bg-white rounded-[8px] border border-[#E7E0D6] shadow-xs">
+        <div
+          ref={toolbarRef}
+          className={`reveal-scale-in ${toolbarVisible ? 'is-visible' : ''} flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 mb-12 p-4 bg-white rounded-[8px] border border-[#E7E0D6] shadow-xs`}
+        >
           {/* Category Chips */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-none" role="tablist" aria-label="Categorías">
             <button

@@ -60,15 +60,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({ producto, config, onSe
           </div>
         )}
 
+        {/* Destello al pasar el mouse */}
+        <div className="shine-sweep" aria-hidden="true" />
+
         {/* Status Pills / Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
           {isAgotado && (
-            <span className="bg-[#1C1917]/90 backdrop-blur-xs text-white px-2.5 py-0.5 text-[10px] uppercase font-semibold tracking-wider rounded-[2px]">
+            <span
+              style={{ animationDelay: `${retrasoMs + 300}ms` }}
+              className="badge-pop bg-[#1C1917]/90 backdrop-blur-xs text-white px-2.5 py-0.5 text-[10px] uppercase font-semibold tracking-wider rounded-[2px]"
+            >
               Agotado
             </span>
           )}
           {producto.destacado && !isAgotado && (
-            <span className="bg-white/90 backdrop-blur-xs text-[#9F1D3A] px-2.5 py-0.5 text-[10px] uppercase font-semibold tracking-wider rounded-[2px] border border-[#E7E0D6]">
+            <span
+              style={{ animationDelay: `${retrasoMs + 300}ms` }}
+              className="badge-pop bg-white/90 backdrop-blur-xs text-[#9F1D3A] px-2.5 py-0.5 text-[10px] uppercase font-semibold tracking-wider rounded-[2px] border border-[#E7E0D6]"
+            >
               Destacado
             </span>
           )}
@@ -85,7 +94,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ producto, config, onSe
             {producto.nombre}
           </h3>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-base font-semibold text-[#9F1D3A] tracking-tight">
+            <span className="text-base font-semibold text-[#9F1D3A] tracking-tight transition-transform duration-200 group-hover:scale-105 inline-block origin-left">
               {precioTexto}
             </span>
           </div>
@@ -114,7 +123,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ producto, config, onSe
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="w-full py-2.5 px-3 bg-[#FAF7F2] hover:bg-white border border-[#E7E0D6] hover:border-[#1C1917] rounded-[4px] text-[#1C1917] text-xs font-semibold text-center flex items-center justify-center gap-2 transition-colors select-none"
+            className="press-shrink w-full py-2.5 px-3 bg-[#FAF7F2] hover:bg-white border border-[#E7E0D6] hover:border-[#1C1917] rounded-[4px] text-[#1C1917] text-xs font-semibold text-center flex items-center justify-center gap-2 transition-colors select-none"
           >
             <MessageCircle className="w-3.5 h-3.5 text-[#128C7E]" aria-hidden="true" />
             <span>Consultar por WhatsApp</span>

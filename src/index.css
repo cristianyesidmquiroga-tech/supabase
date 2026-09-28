@@ -108,6 +108,45 @@ section[id] {
   transform: scale(1);
 }
 
+/* Destello diagonal al pasar el mouse sobre la foto, como un flash de camara */
+.shine-sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 40%,
+    color-mix(in srgb, white 55%, transparent) 50%,
+    transparent 60%
+  );
+  transform: translateX(-120%);
+  pointer-events: none;
+  z-index: 2;
+}
+.group:hover .shine-sweep {
+  animation: shine-sweep-move 0.9s ease;
+}
+@keyframes shine-sweep-move {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(120%); }
+}
+
+/* Aparicion "pop" para insignias (Destacado / Agotado) */
+.badge-pop {
+  animation: badge-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes badge-pop {
+  0% { opacity: 0; transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Micro-interaccion de botones: se hunden un poco al hacer clic */
+.press-shrink {
+  transition: transform 0.15s ease;
+}
+.press-shrink:active {
+  transform: scale(0.96);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal-frame {
     opacity: 1;
@@ -117,5 +156,14 @@ section[id] {
   }
   .frame-hover::before {
     transition: none;
+  }
+  .shine-sweep {
+    display: none;
+  }
+  .badge-pop {
+    animation: none;
+  }
+  .press-shrink:active {
+    transform: none;
   }
 }

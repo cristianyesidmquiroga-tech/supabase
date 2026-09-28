@@ -167,8 +167,8 @@ export const Coleccion: React.FC<ColeccionProps> = ({
               <h3 className="font-display text-xl text-[#1C1917] font-semibold">Selección de Atelier (Destacados)</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {destacados.slice(0, 4).map((prod) => (
-                <ProductCard key={`dest-${prod.id}`} producto={prod} config={config} onSelect={onSelectProducto} />
+              {destacados.slice(0, 4).map((prod, idx) => (
+                <ProductCard key={`dest-${prod.id}`} producto={prod} config={config} onSelect={onSelectProducto} index={idx} />
               ))}
             </div>
           </div>
@@ -298,12 +298,13 @@ export const Coleccion: React.FC<ColeccionProps> = ({
         {!loading && !error && paginatedProducts.length > 0 && (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {paginatedProducts.map((prod) => (
+              {paginatedProducts.map((prod, idx) => (
                 <ProductCard
                   key={prod.id}
                   producto={prod}
                   config={config}
                   onSelect={onSelectProducto}
+                  index={idx}
                 />
               ))}
             </div>

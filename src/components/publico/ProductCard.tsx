@@ -2,14 +2,20 @@ import React from 'react';
 import { MessageCircle } from 'lucide-react';
 import { Producto, SitioConfig } from '../../types';
 import { formatearPrecioCOP, generarEnlaceWhatsApp } from '../../lib/format';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export interface ProductCardProps {
   producto: Producto;
   config: SitioConfig | null;
   onSelect: (producto: Producto) => void;
+  /** Posicion en la rejilla, para escalonar la animacion de entrada. */
+  index?: number;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ producto, config, onSelect }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ producto, config, onSelect, index = 0 }) => {
+  const { ref, visible } = useScrollReveal<HTMLElement>();
+  const retrasoMs = (index % 8) * 70;
+
   const principalPhoto =
     producto.fotografias_producto?.find((f) => f.es_principal) ||
     producto.fotografias_producto?.[0];
@@ -24,16 +30,26 @@ export const ProductCard: React.FC<ProductCardProps> = ({ producto, config, onSe
 
   return (
     <article
+      ref={ref}
       onClick={() => onSelect(producto)}
-      className="bg-white rounded-[12px] border border-[#E7E0D6] overflow-hidden flex flex-col group transition-all duration-200 hover:border-[#8C7072] ambient-shadow cursor-pointer select-none"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onSelect(producto);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      style={{ '--reveal-delay': `${retrasoMs}ms` } as React.CSSProperties}
+      className={`reveal-frame ${visible ? 'is-visible' : ''} bg-white rounded-[12px] border border-[#E7E0D6] overflow-hidden flex flex-col group hover:border-[#8C7072] focus-visible:outline-2 focus-visible:outline-[#9F1D3A] focus-visible:outline-offset-2 ambient-shadow cursor-pointer select-none hover:shadow-lg`}
     >
       {/* Product Image Slot (3:4 aspect ratio) */}
-      <div className="relative aspect-[3/4] bg-[#F4ECE8] overflow-hidden">
+      <div className="frame-hover relative aspect-[3/4] bg-[#F4ECE8] overflow-hidden rounded-t-[12px]">
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={principalPhoto?.texto_alternativo || producto.nombre}
-            className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-110"
             loading="lazy"
             width={400}
             height={533}

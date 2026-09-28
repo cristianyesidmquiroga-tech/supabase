@@ -47,12 +47,13 @@ export const MasVendidos: React.FC<MasVendidosProps> = ({
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {productosFiltrados.map((prod) => (
+          {productosFiltrados.map((prod, idx) => (
             <ProductCard
               key={prod.id}
               producto={prod}
               config={config}
               onSelect={onSelectProducto}
+              index={idx}
             />
           ))}
         </div>

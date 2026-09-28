@@ -25,22 +25,26 @@ export const LandingPage: React.FC = () => {
   useEffect(() => {
     if (!config) return;
 
-    const schemaData = {
+    const schemaData: Record<string, unknown> = {
       '@context': 'https://schema.org',
       '@type': 'ClothingStore',
-      name: config.nombre_negocio || 'VSHEIN Atelier',
-      description: config.descripcion || config.eslogan,
-      telephone: config.telefono || config.whatsapp,
-      email: config.email_contacto,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: config.direccion || 'Showroom Principal',
-        addressLocality: config.ciudad || 'Ciudad Capital',
-        addressRegion: config.departamento || 'Cundinamarca',
-        addressCountry: 'CO',
-      },
+      name: config.nombre_negocio || undefined,
+      description: config.descripcion || config.eslogan || undefined,
+      telephone: config.telefono || config.whatsapp || undefined,
+      email: config.email_contacto || undefined,
       sameAs: [config.instagram_url, config.facebook_url, config.tiktok_url].filter(Boolean),
     };
+
+    // La direccion solo se incluye si es real; nunca se inventa una ubicacion.
+    if (config.direccion) {
+      schemaData.address = {
+        '@type': 'PostalAddress',
+        streetAddress: config.direccion,
+        addressLocality: config.ciudad || undefined,
+        addressRegion: config.departamento || undefined,
+        addressCountry: 'CO',
+      };
+    }
 
     let scriptTag = document.getElementById('json-ld-store') as HTMLScriptElement;
     if (!scriptTag) {

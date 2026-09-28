@@ -46,14 +46,14 @@ export function reemplazarMarcadoresPolitica(
   const fechaTexto = fechaActualizacion ? formatearFecha(fechaActualizacion) : formatearFecha(new Date().toISOString());
 
   const marcadores: Record<string, string> = {
-    '{{nombre_negocio}}': config?.nombre_negocio || 'VSHEIN Atelier',
-    '{{razon_social}}': config?.razon_social || config?.nombre_negocio || 'VSHEIN S.A.S.',
-    '{{nit}}': config?.nit || 'NIT No informado',
-    '{{direccion}}': config?.direccion || 'Atelier Principal',
-    '{{ciudad}}': config?.ciudad || 'Ciudad Capital',
-    '{{email_contacto}}': config?.email_contacto || 'concierge@vshein.com',
-    '{{telefono}}': config?.telefono || config?.whatsapp || '+57 300 000 0000',
-    '{{responsable_datos}}': config?.responsable_datos || config?.razon_social || config?.nombre_negocio || 'VSHEIN Atelier',
+    '{{nombre_negocio}}': config?.nombre_negocio || 'No informado',
+    '{{razon_social}}': config?.razon_social || config?.nombre_negocio || 'No informado',
+    '{{nit}}': config?.nit || 'No informado',
+    '{{direccion}}': config?.direccion || 'No informado',
+    '{{ciudad}}': config?.ciudad || 'No informado',
+    '{{email_contacto}}': config?.email_contacto || 'No informado',
+    '{{telefono}}': config?.telefono || config?.whatsapp || 'No informado',
+    '{{responsable_datos}}': config?.responsable_datos || config?.razon_social || config?.nombre_negocio || 'No informado',
     '{{fecha}}': fechaTexto,
   };
 

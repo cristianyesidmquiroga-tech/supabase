@@ -1,4 +1,19 @@
+import { SupabaseClient } from '@supabase/supabase-js';
 import { SitioConfig } from '../types';
+
+/**
+ * Resuelve la URL publica de una foto: si ya es una URL absoluta (http/https)
+ * se usa tal cual; si es una ruta interna, se resuelve contra el bucket de Storage.
+ */
+export function resolverUrlImagen(
+  supabase: SupabaseClient,
+  bucket: string,
+  ruta: string | null | undefined
+): string | undefined {
+  if (!ruta) return undefined;
+  if (/^https?:\/\//i.test(ruta)) return ruta;
+  return supabase.storage.from(bucket).getPublicUrl(ruta).data.publicUrl;
+}
 
 /**
  * Formatea un valor numérico a moneda colombiana (COP) sin decimales.

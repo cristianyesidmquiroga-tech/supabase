@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
+import { resolverUrlImagen } from '../lib/format';
 import { Producto, Categoria, Promocion, ProductoMasVendido, RolUsuario } from '../types';
 
 export function useProductos(options?: { rol?: RolUsuario | null; soloActivos?: boolean }) {
@@ -74,9 +75,7 @@ export function useProductos(options?: { rol?: RolUsuario | null; soloActivos?: 
         const mapped = (data || []).map((prod: any) => {
           const fotos = (prod.fotografias_producto || []).map((f: any) => ({
             ...f,
-            url_publica: f.ruta_base
-              ? supabase.storage.from('catalogo').getPublicUrl(f.ruta_base).data.publicUrl
-              : undefined,
+            url_publica: resolverUrlImagen(supabase, 'catalogo', f.ruta_base),
           }));
 
           fotos.sort((a: any, b: any) => a.orden - b.orden);
@@ -101,9 +100,7 @@ export function useProductos(options?: { rol?: RolUsuario | null; soloActivos?: 
 
         const mappedPromos = (promoData || []).map((p) => ({
           ...p,
-          url_publica: p.ruta_imagen
-            ? supabase.storage.from('promociones').getPublicUrl(p.ruta_imagen).data.publicUrl
-            : undefined,
+          url_publica: resolverUrlImagen(supabase, 'promociones', p.ruta_imagen),
         }));
         setPromociones(mappedPromos);
       } catch {

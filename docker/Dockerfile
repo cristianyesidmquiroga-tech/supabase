@@ -1,3 +1,5 @@
+# Contexto de build: raiz del repo (ver docker/docker-compose.yml)
+
 # Etapa 1: build de la SPA con Vite
 FROM node:20-alpine AS build
 WORKDIR /app
@@ -18,7 +20,7 @@ RUN npm run build
 
 # Etapa 2: servir estatico con nginx
 FROM nginx:1.27-alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80

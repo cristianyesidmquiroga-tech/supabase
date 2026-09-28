@@ -1,0 +1,6 @@
+{
+  "name": "VSHEIN — Moda Femenina Contemporánea",
+  "description": "Moda femenina contemporánea, siluetas sobrias y piezas de edición limitada. Catálogo editorial con atención exclusiva vía WhatsApp Concierge.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

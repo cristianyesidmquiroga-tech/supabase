@@ -68,22 +68,15 @@ export const Hero: React.FC<HeroProps> = ({ config, promociones = [] }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Editorial Copy Column */}
           <div className="lg:col-span-6 flex flex-col justify-center pr-0 lg:pr-8 space-y-6">
-            <div className="inline-flex items-center gap-3">
-              <span className="w-8 h-[1px] bg-[#9F1D3A]" aria-hidden="true" />
-              <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#57534E]">
-                Edición Limitada — 2026
-              </span>
-            </div>
-
             <h1 className="font-display text-4xl sm:text-5xl lg:text-[56px] text-[#1C1917] font-bold tracking-tight leading-[1.1] text-balance">
-              {currentPromo?.titulo || config?.hero_titulo || 'Nueva Colección Primavera / Verano'}
+              {currentPromo?.titulo || config?.hero_titulo || config?.nombre_negocio || 'Bienvenida'}
             </h1>
 
-            <p className="text-sm sm:text-base text-[#57534E] max-w-lg font-normal leading-relaxed">
-              {currentPromo?.subtitulo ||
-                config?.hero_subtitulo ||
-                'Siluetas arquitectónicas depuradas, linos seleccionados y una sastrería artesanal concebida para la mujer sobria y moderna.'}
-            </p>
+            {(currentPromo?.subtitulo || config?.hero_subtitulo) && (
+              <p className="text-sm sm:text-base text-[#57534E] max-w-lg font-normal leading-relaxed">
+                {currentPromo?.subtitulo || config?.hero_subtitulo}
+              </p>
+            )}
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <a
@@ -102,18 +95,6 @@ export const Hero: React.FC<HeroProps> = ({ config, promociones = [] }) => {
               >
                 Ver colección
               </a>
-            </div>
-
-            {/* Atelier Micro Badge Stats */}
-            <div className="pt-6 border-t border-[#E7E0D6] grid grid-cols-2 gap-6">
-              <div>
-                <span className="block font-display text-xl md:text-2xl font-semibold text-[#1C1917]">100%</span>
-                <span className="block text-xs text-[#57534E] mt-0.5">Fibras orgánicas certificadas</span>
-              </div>
-              <div>
-                <span className="block font-display text-xl md:text-2xl font-semibold text-[#1C1917]">Atelier</span>
-                <span className="block text-xs text-[#57534E] mt-0.5">Confección boutique y personalizada</span>
-              </div>
             </div>
           </div>
 
@@ -135,21 +116,6 @@ export const Hero: React.FC<HeroProps> = ({ config, promociones = [] }) => {
                   <span className="font-display text-2xl uppercase tracking-widest text-[#1C1917]">VSHEIN</span>
                 </div>
               )}
-
-              {/* Floating Lookbook Card */}
-              <div className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md p-4 rounded-[8px] border border-[#E7E0D6] flex items-center justify-between shadow-xs">
-                <div>
-                  <span className="text-[10px] uppercase tracking-wider text-[#57534E] font-medium block">
-                    Lookbook Oficial
-                  </span>
-                  <span className="font-display text-sm md:text-base font-semibold text-[#1C1917]">
-                    Pret-à-porter N° 04
-                  </span>
-                </div>
-                <span className="text-xs font-semibold text-[#9F1D3A] tracking-wider uppercase">
-                  Exclusivo
-                </span>
-              </div>
 
               {/* Slide controls if multiple promotions exist */}
               {activePromos.length > 1 && (

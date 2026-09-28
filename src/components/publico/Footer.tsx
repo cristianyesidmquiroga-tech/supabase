@@ -26,10 +26,11 @@ export const Footer: React.FC<FooterProps> = ({ config, politicas = [] }) => {
             <span className="font-display text-2xl uppercase tracking-widest text-[#FAF7F2] block">
               {config?.nombre_negocio || 'VSHEIN'}
             </span>
-            <p className="text-xs text-[#E0D8D5] font-light leading-relaxed max-w-sm">
-              {config?.eslogan ||
-                'Moda femenina contemporánea, siluetas sobrias y piezas concebidas en edición limitada. Una experiencia editorial de alta costura sin prisa.'}
-            </p>
+            {config?.eslogan && (
+              <p className="text-xs text-[#E0D8D5] font-light leading-relaxed max-w-sm">
+                {config.eslogan}
+              </p>
+            )}
             {config?.razon_social && (
               <p className="text-[11px] text-[#A8A29E] leading-normal">
                 {config.razon_social} {config.nit && `· NIT: ${config.nit}`}
@@ -160,13 +161,8 @@ export const Footer: React.FC<FooterProps> = ({ config, politicas = [] }) => {
         {/* Bottom Row */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-xs text-[#A8A29E]">
           <p>
-            © {anio} {config?.nombre_negocio || 'VSHEIN'}. Todos los derechos reservados. Moda femenina contemporánea y edición limitada.
+            © {anio} {config?.nombre_negocio || 'VSHEIN'}. Todos los derechos reservados.
           </p>
-          <div className="flex items-center gap-4">
-            <span>Atelier Boutique</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#128C7E]" aria-hidden="true" />
-            <span className="text-[#128C7E] font-medium">Concierge Activo</span>
-          </div>
         </div>
       </div>
     </footer>

@@ -155,7 +155,7 @@ export const Coleccion: React.FC<ColeccionProps> = ({
             </h2>
           </div>
           <p className="text-sm text-[#57534E] max-w-md font-normal leading-relaxed">
-            Prendas de producción consciente en lotes reducidos. Cada pieza se coordina y consulta directamente con nuestra asesoría personalizada.
+            Explora las prendas disponibles y consulta directamente por WhatsApp.
           </p>
         </div>
 

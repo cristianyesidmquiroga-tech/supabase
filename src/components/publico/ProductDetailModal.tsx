@@ -198,19 +198,17 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 <span className="text-2xl font-semibold text-[#9F1D3A] tracking-tight">
                   {precioTexto}
                 </span>
-                <span className="text-xs text-[#57534E] uppercase tracking-wider">
-                  Edición de Atelier
-                </span>
               </div>
 
               {/* Hairline Divider */}
               <div className="w-full h-[1px] bg-[#E7E0D6] my-5" />
 
               {/* Description */}
-              <p className="text-sm text-[#57534E] leading-relaxed font-normal">
-                {producto.descripcion ||
-                  'Pieza de corte artesanal confeccionada con hilados nobles en lotes reducidos. Cada ejemplar respeta los ritmos de la sastrería consciente y atemporal.'}
-              </p>
+              {producto.descripcion && (
+                <p className="text-sm text-[#57534E] leading-relaxed font-normal">
+                  {producto.descripcion}
+                </p>
+              )}
 
               {/* Size Selector */}
               {producto.tallas && producto.tallas.length > 0 && (

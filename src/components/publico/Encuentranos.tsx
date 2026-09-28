@@ -131,7 +131,7 @@ export const Encuentranos: React.FC<EncuentranosProps> = ({ config }) => {
                 style={{ border: 0, minHeight: '380px' }}
                 allowFullScreen={false}
                 loading="lazy"
-                title="Ubicación VSHEIN Showroom Atelier"
+                title={`Ubicación de ${config?.nombre_negocio || 'la tienda'}`}
                 referrerPolicy="no-referrer-when-downgrade"
                 className="w-full h-full grayscale contrast-[1.05] opacity-90 hover:grayscale-0 transition-all duration-500"
               />
@@ -139,24 +139,13 @@ export const Encuentranos: React.FC<EncuentranosProps> = ({ config }) => {
               <div className="w-full h-full min-h-[380px] flex items-center justify-center p-8 bg-[#F4ECE8] text-[#57534E] text-center">
                 <div>
                   <MapPin className="w-8 h-8 mx-auto text-[#9F1D3A] mb-2" />
-                  <p className="font-display text-lg text-[#1C1917] font-semibold">{config?.direccion || 'Showroom Atelier'}</p>
-                  <p className="text-xs text-[#57534E] mt-1">{config?.ciudad || 'Ciudad Capital'}</p>
+                  {config?.direccion && (
+                    <p className="font-display text-lg text-[#1C1917] font-semibold">{config.direccion}</p>
+                  )}
+                  {config?.ciudad && <p className="text-xs text-[#57534E] mt-1">{config.ciudad}</p>}
                 </div>
               </div>
             )}
-
-            {/* Floating Atelier Badge on Map */}
-            <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-[8px] border border-[#E7E0D6] shadow-md max-w-xs pointer-events-none hidden sm:block">
-              <div className="flex items-center gap-2.5 mb-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#9F1D3A] animate-pulse" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-[#1C1917]">
-                  {config?.nombre_negocio || 'VSHEIN'} Atelier
-                </span>
-              </div>
-              <p className="text-[11px] text-[#57534E] leading-relaxed">
-                Estacionamiento exclusivo y servicio de cita previa para clientas registradas.
-              </p>
-            </div>
           </div>
         </div>
       </div>

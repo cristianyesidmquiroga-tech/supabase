@@ -15,24 +15,25 @@ export const Navbar: React.FC<NavbarProps> = ({ config }) => {
 
   // Resalta en el menu la seccion que realmente esta a la vista.
   useEffect(() => {
-    const elementos = SECCIONES.map((id) => document.getElementById(id)).filter(
-      (el): el is HTMLElement => Boolean(el)
-    );
-    if (elementos.length === 0 || typeof IntersectionObserver === 'undefined') return;
+    const NAVBAR_H = 80; // altura del navbar sticky en px
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibles = entries.filter((e) => e.isIntersecting);
-        if (visibles.length > 0) {
-          const masVisible = visibles.reduce((a, b) => (a.intersectionRatio > b.intersectionRatio ? a : b));
-          setSeccionActiva(masVisible.target.id);
+    const detectarSeccion = () => {
+      const scrollY = window.scrollY + NAVBAR_H + 16; // pequeño offset
+      let activa = SECCIONES[0];
+
+      for (const id of SECCIONES) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (el.offsetTop <= scrollY) {
+          activa = id;
         }
-      },
-      { rootMargin: '-30% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
-    );
+      }
+      setSeccionActiva(activa);
+    };
 
-    elementos.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    detectarSeccion(); // run once on mount
+    window.addEventListener('scroll', detectarSeccion, { passive: true });
+    return () => window.removeEventListener('scroll', detectarSeccion);
   }, []);
 
   const whatsappUrl = generarEnlaceWhatsApp(

@@ -5,10 +5,8 @@ import {
   Mail,
   Instagram,
   Facebook,
-  Music,
   Send,
   Loader2,
-  CheckCircle2,
 } from 'lucide-react';
 import { SitioConfig } from '../../types';
 import { supabase, isSupabaseConfigured } from '../../lib/supabaseClient';
@@ -150,89 +148,50 @@ export const Contacto: React.FC<ContactoProps> = ({ config }) => {
           </p>
         </div>
 
-        {/* Multi-Channel Row (only show channels that exist) */}
-        <div
-          ref={canalesRef}
-          className={`reveal-fade-up ${canalesVisible ? 'is-visible' : ''} grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-16`}
-        >
-          {/* WhatsApp */}
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white hover:bg-[#FAF7F2] p-5 rounded-[8px] border border-[#E7E0D6] shadow-xs flex flex-col items-center justify-center text-center group transition-colors select-none"
+        {/* Multi-Channel Row — mismo ancho que el formulario */}
+        <div className="max-w-2xl mx-auto mb-10">
+          <div
+            ref={canalesRef}
+            className={`reveal-fade-up ${canalesVisible ? 'is-visible' : ''} grid grid-cols-3 gap-3`}
           >
-            <MessageCircle className="w-6 h-6 text-[#128C7E] group-hover:scale-110 transition-transform mb-2" />
-            <span className="text-xs font-semibold text-[#1C1917]">WhatsApp</span>
-            <span className="text-[10px] text-[#57534E] mt-0.5">Inmediato</span>
-          </a>
-
-          {/* Teléfono */}
-          {config?.telefono && (
+            {/* WhatsApp */}
             <a
-              href={`tel:${config.telefono.replace(/\s+/g, '')}`}
-              className="bg-white hover:bg-[#FAF7F2] p-5 rounded-[8px] border border-[#E7E0D6] shadow-xs flex flex-col items-center justify-center text-center group transition-colors select-none"
-            >
-              <Phone className="w-6 h-6 text-[#1C1917] group-hover:scale-110 transition-transform mb-2" />
-              <span className="text-xs font-semibold text-[#1C1917]">Teléfono</span>
-              <span className="text-[10px] text-[#57534E] mt-0.5">Lunes a Sáb</span>
-            </a>
-          )}
-
-          {/* Correo */}
-          {config?.email_contacto && (
-            <a
-              href={`mailto:${config.email_contacto}`}
-              className="bg-white hover:bg-[#FAF7F2] p-5 rounded-[8px] border border-[#E7E0D6] shadow-xs flex flex-col items-center justify-center text-center group transition-colors select-none"
-            >
-              <Mail className="w-6 h-6 text-[#1C1917] group-hover:scale-110 transition-transform mb-2" />
-              <span className="text-xs font-semibold text-[#1C1917]">Correo</span>
-              <span className="text-[10px] text-[#57534E] mt-0.5">Respuesta en 24h</span>
-            </a>
-          )}
-
-          {/* Instagram */}
-          {config?.instagram_url && (
-            <a
-              href={config.instagram_url}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white hover:bg-[#FAF7F2] p-5 rounded-[8px] border border-[#E7E0D6] shadow-xs flex flex-col items-center justify-center text-center group transition-colors select-none"
+              className="bg-white hover:bg-[#FAF7F2] py-4 px-2 rounded-[8px] border border-[#E7E0D6] shadow-xs flex flex-col items-center justify-center text-center group transition-colors select-none"
+            >
+              <MessageCircle className="w-6 h-6 text-[#128C7E] group-hover:scale-110 transition-transform mb-2" />
+              <span className="text-xs font-semibold text-[#1C1917]">WhatsApp</span>
+              <span className="text-[10px] text-[#57534E] mt-0.5">Inmediato</span>
+            </a>
+
+            {/* Instagram */}
+            <a
+              href={config?.instagram_url || '#'}
+              target={config?.instagram_url ? '_blank' : '_self'}
+              rel="noopener noreferrer"
+              className="bg-white hover:bg-[#FAF7F2] py-4 px-2 rounded-[8px] border border-[#E7E0D6] shadow-xs flex flex-col items-center justify-center text-center group transition-colors select-none"
             >
               <Instagram className="w-6 h-6 text-[#1C1917] group-hover:scale-110 transition-transform mb-2" />
               <span className="text-xs font-semibold text-[#1C1917]">Instagram</span>
               <span className="text-[10px] text-[#57534E] mt-0.5">Lookbook</span>
             </a>
-          )}
 
-          {/* Facebook */}
-          {config?.facebook_url && (
+            {/* Facebook */}
             <a
-              href={config.facebook_url}
-              target="_blank"
+              href={config?.facebook_url || '#'}
+              target={config?.facebook_url ? '_blank' : '_self'}
               rel="noopener noreferrer"
-              className="bg-white hover:bg-[#FAF7F2] p-5 rounded-[8px] border border-[#E7E0D6] shadow-xs flex flex-col items-center justify-center text-center group transition-colors select-none"
+              className="bg-white hover:bg-[#FAF7F2] py-4 px-2 rounded-[8px] border border-[#E7E0D6] shadow-xs flex flex-col items-center justify-center text-center group transition-colors select-none"
             >
               <Facebook className="w-6 h-6 text-[#1C1917] group-hover:scale-110 transition-transform mb-2" />
               <span className="text-xs font-semibold text-[#1C1917]">Facebook</span>
               <span className="text-[10px] text-[#57534E] mt-0.5">Atelier Studio</span>
             </a>
-          )}
-
-          {/* TikTok */}
-          {config?.tiktok_url && (
-            <a
-              href={config.tiktok_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white hover:bg-[#FAF7F2] p-5 rounded-[8px] border border-[#E7E0D6] shadow-xs flex flex-col items-center justify-center text-center group transition-colors select-none"
-            >
-              <Music className="w-6 h-6 text-[#1C1917] group-hover:scale-110 transition-transform mb-2" />
-              <span className="text-xs font-semibold text-[#1C1917]">TikTok</span>
-              <span className="text-[10px] text-[#57534E] mt-0.5">Editorial Clips</span>
-            </a>
-          )}
+          </div>
         </div>
+
 
         {/* Curated Contact Form */}
         <div

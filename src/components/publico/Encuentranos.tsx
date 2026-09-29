@@ -11,7 +11,6 @@ export const Encuentranos: React.FC<EncuentranosProps> = ({ config }) => {
   const tieneUbicacion = Boolean(config?.direccion || config?.mapa_embed_url);
   const { ref: infoRef, visible: infoVisible } = useScrollReveal<HTMLDivElement>();
   const { ref: mapaRef, visible: mapaVisible } = useScrollReveal<HTMLDivElement>();
-  if (!tieneUbicacion) return null;
 
   // Directions destination URL
   const comoLlegarUrl =
@@ -45,7 +44,70 @@ export const Encuentranos: React.FC<EncuentranosProps> = ({ config }) => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+        {!tieneUbicacion ? (
+          /* ── Fallback cuando no hay datos configurados ── */
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+            <div className="lg:col-span-5 flex flex-col justify-between bg-white p-8 rounded-[12px] border border-[#E7E0D6] shadow-xs space-y-8">
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-[6px] bg-[#FAF7F2] border border-[#E7E0D6] flex items-center justify-center text-[#9F1D3A] shrink-0 mt-0.5">
+                    <MapPin className="w-5 h-5" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <h3 className="font-headline-sm text-base font-semibold text-[#1C1917]">Showroom Principal</h3>
+                    <p className="text-xs md:text-sm text-[#57534E] mt-1 leading-relaxed">Dirección por confirmar</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-[6px] bg-[#FAF7F2] border border-[#E7E0D6] flex items-center justify-center text-[#9F1D3A] shrink-0 mt-0.5">
+                    <Clock className="w-5 h-5" aria-hidden="true" />
+                  </div>
+                  <div className="w-full">
+                    <h3 className="font-headline-sm text-base font-semibold text-[#1C1917] mb-2">Horarios de Atención</h3>
+                    <ul className="text-xs divide-y divide-[#E7E0D6]/60 space-y-2">
+                      <li className="flex justify-between pt-2 text-[#57534E]">
+                        <span>Lunes – Viernes</span>
+                        <span className="font-medium text-[#1C1917]">9:00 – 18:00</span>
+                      </li>
+                      <li className="flex justify-between pt-2 text-[#57534E]">
+                        <span>Sábados</span>
+                        <span className="font-medium text-[#1C1917]">10:00 – 15:00</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-[6px] bg-[#FAF7F2] border border-[#E7E0D6] flex items-center justify-center text-[#9F1D3A] shrink-0 mt-0.5">
+                    <Phone className="w-5 h-5" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <h3 className="font-headline-sm text-base font-semibold text-[#1C1917]">Línea Directa</h3>
+                    <p className="text-xs md:text-sm text-[#57534E] mt-1">Contáctenos por WhatsApp</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6 border-t border-[#E7E0D6]">
+                <span className="w-full py-3.5 px-6 rounded-[4px] border border-[#E7E0D6] text-[#57534E] text-xs font-semibold uppercase tracking-wider text-center flex items-center justify-center gap-2 select-none opacity-60 cursor-default">
+                  <Navigation className="w-4 h-4" aria-hidden="true" />
+                  <span>Cómo llegar</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 relative min-h-[380px] lg:min-h-[440px] rounded-[12px] overflow-hidden border border-[#E7E0D6] shadow-xs bg-[#F4ECE8] flex items-center justify-center">
+              <div className="text-center p-8">
+                <MapPin className="w-10 h-10 mx-auto text-[#9F1D3A] mb-4 opacity-50" />
+                <p className="font-display text-lg text-[#1C1917] font-semibold mb-1">Próximamente</p>
+                <p className="text-xs text-[#57534E]">La ubicación de nuestro showroom estará disponible pronto.</p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* ── Contenido real cuando hay datos ── */
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
           {/* Column 1: Info, Hours, Phone and Directions CTA */}
           <div
             ref={infoRef}
@@ -156,8 +218,10 @@ export const Encuentranos: React.FC<EncuentranosProps> = ({ config }) => {
               </div>
             )}
           </div>
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );
 };
+

@@ -115,64 +115,81 @@ export const Encuentranos: React.FC<EncuentranosProps> = ({ config }) => {
           >
             <div className="space-y-6">
               {/* Dirección */}
-              {config?.direccion && (
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-[6px] bg-[#FAF7F2] border border-[#E7E0D6] flex items-center justify-center text-[#9F1D3A] shrink-0 mt-0.5">
-                    <MapPin className="w-5 h-5" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <h3 className="font-headline-sm text-base font-semibold text-[#1C1917]">
-                      Showroom Principal
-                    </h3>
-                    <p className="text-xs md:text-sm text-[#57534E] mt-1 leading-relaxed">
-                      {config.direccion}
-                      {config.ciudad && <><br />{config.ciudad}{config.departamento ? `, ${config.departamento}` : ''}</>}
-                    </p>
-                  </div>
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-[6px] bg-[#FAF7F2] border border-[#E7E0D6] flex items-center justify-center text-[#9F1D3A] shrink-0 mt-0.5">
+                  <MapPin className="w-5 h-5" aria-hidden="true" />
                 </div>
-              )}
+                <div>
+                  <h3 className="font-headline-sm text-base font-semibold text-[#1C1917]">
+                    Showroom Principal
+                  </h3>
+                  <p className="text-xs md:text-sm text-[#57534E] mt-1 leading-relaxed">
+                    {config?.direccion ? (
+                      <>
+                        {config.direccion}
+                        {config.ciudad && <><br />{config.ciudad}{config.departamento ? `, ${config.departamento}` : ''}</>}
+                      </>
+                    ) : (
+                      'Dirección por confirmar'
+                    )}
+                  </p>
+                </div>
+              </div>
 
               {/* Horarios */}
-              {config?.horario && config.horario.length > 0 && (
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-[6px] bg-[#FAF7F2] border border-[#E7E0D6] flex items-center justify-center text-[#9F1D3A] shrink-0 mt-0.5">
-                    <Clock className="w-5 h-5" aria-hidden="true" />
-                  </div>
-                  <div className="w-full">
-                    <h3 className="font-headline-sm text-base font-semibold text-[#1C1917] mb-2">
-                      Horarios de Atención
-                    </h3>
-                    <ul className="text-xs divide-y divide-[#E7E0D6]/60 space-y-2">
-                      {config.horario.map((item, idx) => (
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-[6px] bg-[#FAF7F2] border border-[#E7E0D6] flex items-center justify-center text-[#9F1D3A] shrink-0 mt-0.5">
+                  <Clock className="w-5 h-5" aria-hidden="true" />
+                </div>
+                <div className="w-full">
+                  <h3 className="font-headline-sm text-base font-semibold text-[#1C1917] mb-2">
+                    Horarios de Atención
+                  </h3>
+                  <ul className="text-xs divide-y divide-[#E7E0D6]/60 space-y-2">
+                    {config?.horario && config.horario.length > 0 ? (
+                      config.horario.map((item, idx) => (
                         <li key={idx} className="flex justify-between pt-2 text-[#57534E]">
                           <span>{item.dias}</span>
                           <span className="font-medium text-[#1C1917]">{item.horas}</span>
                         </li>
-                      ))}
-                    </ul>
-                  </div>
+                      ))
+                    ) : (
+                      <>
+                        <li className="flex justify-between pt-2 text-[#57534E]">
+                          <span>Lunes – Viernes</span>
+                          <span className="font-medium text-[#1C1917]">9:00 – 18:00</span>
+                        </li>
+                        <li className="flex justify-between pt-2 text-[#57534E]">
+                          <span>Sábados</span>
+                          <span className="font-medium text-[#1C1917]">10:00 – 15:00</span>
+                        </li>
+                      </>
+                    )}
+                  </ul>
                 </div>
-              )}
+              </div>
 
               {/* Teléfono */}
-              {config?.telefono && (
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-[6px] bg-[#FAF7F2] border border-[#E7E0D6] flex items-center justify-center text-[#9F1D3A] shrink-0 mt-0.5">
-                    <Phone className="w-5 h-5" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <h3 className="font-headline-sm text-base font-semibold text-[#1C1917]">
-                      Línea Directa
-                    </h3>
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-[6px] bg-[#FAF7F2] border border-[#E7E0D6] flex items-center justify-center text-[#9F1D3A] shrink-0 mt-0.5">
+                  <Phone className="w-5 h-5" aria-hidden="true" />
+                </div>
+                <div>
+                  <h3 className="font-headline-sm text-base font-semibold text-[#1C1917]">
+                    Línea Directa
+                  </h3>
+                  {config?.telefono ? (
                     <a
                       href={`tel:${config.telefono.replace(/\s+/g, '')}`}
                       className="text-xs md:text-sm text-[#57534E] hover:text-[#9F1D3A] transition-colors mt-1 block font-medium"
                     >
                       {config.telefono}
                     </a>
-                  </div>
+                  ) : (
+                    <p className="text-xs md:text-sm text-[#57534E] mt-1">Contáctenos por WhatsApp</p>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
 
             {/* CTA Button "Cómo llegar" */}

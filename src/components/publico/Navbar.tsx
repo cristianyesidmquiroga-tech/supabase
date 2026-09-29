@@ -51,7 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({ config }) => {
     }`;
 
   return (
-    <header className="sticky top-0 z-40 bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#E7E0D6] shadow-xs">
+    <header className="relative z-40 bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#E7E0D6] shadow-xs">
       <div className="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
         {/* Brand Anchor */}
         <div className="flex items-center gap-10">

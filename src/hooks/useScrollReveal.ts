@@ -13,7 +13,7 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
 ) {
   const ref = useRef<T | null>(null);
   const [visible, setVisible] = useState(false);
-  const once = options?.once ?? true;
+  const once = options?.once ?? false;
 
   useEffect(() => {
     const el = ref.current;
@@ -24,18 +24,6 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
       return;
     }
 
-    const checkVisibility = () => {
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight + 100 && rect.bottom > -100) {
-          setVisible(true);
-        }
-      }
-    };
-
-    // Immediate check in case element is already in or near viewport
-    checkVisibility();
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -45,18 +33,12 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
           setVisible(false);
         }
       },
-      { threshold, rootMargin: '100px 0px 100px 0px' }
+      { threshold, rootMargin: '0px 0px -10% 0px' }
     );
 
     observer.observe(el);
 
-    // Backup check after brief delay for smooth page loads and hash link navigations
-    const timer = setTimeout(checkVisibility, 150);
-
-    return () => {
-      observer.disconnect();
-      clearTimeout(timer);
-    };
+    return () => observer.disconnect();
   }, [threshold, once]);
 
   return { ref, visible };

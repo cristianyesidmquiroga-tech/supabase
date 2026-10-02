@@ -1,3 +1,34 @@
+# Clothing Store: Landing Page and Admin Panel
+
+Public catalog and role-based admin panel for a clothing store, built with React 19, TypeScript, Tailwind CSS 4 and Supabase (Postgres with Row Level Security). Dockerized with Nginx and ready to deploy on Coolify.
+
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-RLS-3ECF8E?logo=supabase&logoColor=white)
+
+## Features
+
+- **Public site:** hero, collection, best sellers, product detail, promotions, contact, location and a floating WhatsApp button.
+- **Admin panel** (`/equipo`): products, categories, promotions, site settings, policies, messages and users.
+- **Three roles** (superadmin, supervisor, employee) with a central permissions function; destructive actions are restricted by role, and the database enforces the same rules with RLS.
+- Stock alerts and image uploads.
+- Design tokens in CSS, Vitest tests for the permissions and formatting logic, and a Docker build with Nginx (SPA fallback and security headers).
+
+## Quick start
+
+```bash
+git clone https://github.com/cristianyesidmquiroga-tech/supabase.git
+cd supabase
+npm install --legacy-peer-deps
+cp .env.example .env     # set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
+npm run dev
+```
+
+Use only the public anon key in the front end, never the `service_role` key. Deployment steps for Docker and Coolify are in the Spanish section below.
+
+---
+
 # VSHEIN
 
 Landing page y panel administrativo de VSHEIN. React 19 + Vite + TypeScript + Tailwind, conectado a Supabase (Postgres con RLS).

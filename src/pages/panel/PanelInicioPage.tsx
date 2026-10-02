@@ -37,7 +37,7 @@ export const PanelInicioPage: React.FC = () => {
   useEffect(() => {
     async function loadMensajes() {
       if (!isSupabaseConfigured || !supabase) {
-        setMensajesSinLeer(2); // Demo count
+        setMensajesSinLeer(0);
         return;
       }
       try {
